@@ -114,4 +114,22 @@ sudo systemctl reload caddy
 [source](https://caddyserver.com/docs/running)
 
 ## Backup
-For backing up borg backup is used. More info [here](https://borgbackup.readthedocs.io/en/stable/quickstart.html).
+For backing up borg backup is used, more info [here](https://borgbackup.readthedocs.io/en/stable/quickstart.html).
+
+To execute the predefined scripts I use crontab. Scripts sometimes require to be run as root. That's why we will use the roots crontab.
+
+First switch to root user:
+```shell
+sudo su
+```
+
+Enter crontab:
+```shell
+crontab -e
+```
+
+Depending on the number of backups you want to do add the following line:
+```
+0 1 * * * /bin/bash /path/to/server/backup_scripts/backup.sh app_name
+```
+More info about the [crontjobs](https://crontab.guru/)
