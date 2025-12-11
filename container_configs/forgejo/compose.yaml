@@ -15,7 +15,7 @@ services:
       - docker_certs:/certs
 
   forgejo:
-    image: codeberg.org/forgejo/forgejo:13.0.2
+    image: codeberg.org/forgejo/forgejo:13
     container_name: forgejo
     environment:
       - USER_UID=1000
@@ -37,7 +37,7 @@ services:
 
   runner-register:
     container_name: forgejo-runner-register
-    image: code.forgejo.org/forgejo/runner:11.1.2
+    image: code.forgejo.org/forgejo/runner:12
     links:
       - docker-in-docker
       - forgejo
@@ -64,7 +64,7 @@ services:
 
   runner-daemon:
     container_name: forgejo-runner-daemon
-    image: code.forgejo.org/forgejo/runner:11.1.2
+    image: code.forgejo.org/forgejo/runner:12
     links:
       - docker-in-docker
       - forgejo

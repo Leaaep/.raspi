@@ -1,27 +1,31 @@
 # Raspberry Pi Setup
+
 The setup for my docker apps running on a Raspberry Pi.
 
 # Apps
+
 * Forgejo
 * Mealie
 * Portainer
 * Filebrowser
+* Duplicati
+* Watchtower
+
+# Docker setup
+
+[https://docs.docker.com/engine/install/raspberry-pi-os/](https://docs.docker.com/engine/install/raspberry-pi-os/)
 
 # Reverse proxy
 
-## Requirements
+Requirements:
 
 - A domain provided by Cloudflare
 - A api key created for the domain
 - A Raspberry Pi to install everything to
 
-## Docker setup
-
-[https://docs.docker.com/engine/install/raspberry-pi-os/](https://docs.docker.com/engine/install/raspberry-pi-os/)
-
 ## Caddy
 
-### To setup Caddy we first need to install it:
+### To set up Caddy we first need to install it:
 
 ```shell
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
@@ -82,7 +86,8 @@ you can curl `:2019` to check the currently loaded config
 
 ### Caddy as service:
 
-Stop any instances of Caddy running, then create a caddy.service file, copy from [here](https://github.com/caddyserver/dist/blob/master/init/caddy.service)
+Stop any instances of Caddy running, then create a caddy.service file, copy
+from [here](https://github.com/caddyserver/dist/blob/master/init/caddy.service)
 
 `/etc/systemd/system/caddy.service`
 
@@ -113,23 +118,65 @@ sudo systemctl reload caddy
 
 [source](https://caddyserver.com/docs/running)
 
-## Backup
+# Backup
+
 For backing up borg backup is used, more info [here](https://borgbackup.readthedocs.io/en/stable/quickstart.html).
 
-To execute the predefined scripts I use crontab. Scripts sometimes require to be run as root. That's why we will use the roots crontab.
+To execute the predefined scripts I use crontab. Scripts sometimes require to be run as root. That's why we will use the
+roots crontab.
 
 First switch to root user:
+
 ```shell
 sudo su
 ```
 
 Enter crontab:
+
 ```shell
 crontab -e
 ```
 
 Depending on the number of backups you want to do add the following line:
-```
+
+```cronexp
 0 1 * * * /bin/bash /path/to/server/backup_scripts/backup.sh app_name
 ```
+
 More info about the [crontjobs](https://crontab.guru/)
+
+# Unattended upgrades
+
+This package is used to auto update the server so you don't have to manually do it.
+
+Check if package is installed
+
+```shell
+dpkg -l | grep unattended-upgrades
+```
+
+Install package if not installed
+
+```shell
+sudo apt install unattended-upgrades
+```
+
+Check if auto update is enabled
+
+```shell
+cat /etc/apt/apt.conf.d/20auto-upgrades
+```
+
+If not set it to auto update
+
+```shell
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
+
+Finished! Your server will now auto update itself.
+
+[source](https://linuxcapable.com/how-to-configure-unattended-upgrades-on-ubuntu-linux/)
+
+# Watchtower
+
+If you run the watchtower compose all docker images will be updated automatically.
