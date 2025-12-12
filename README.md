@@ -9,13 +9,13 @@ The setup for my docker apps running on a Raspberry Pi.
 * Portainer
 * Filebrowser
 * Duplicati
+* Minio
+* Formbricks
 * Watchtower
 
-# Docker setup
+# Setup
 
 [https://docs.docker.com/engine/install/raspberry-pi-os/](https://docs.docker.com/engine/install/raspberry-pi-os/)
-
-# Reverse proxy
 
 Requirements:
 
@@ -118,7 +118,39 @@ sudo systemctl reload caddy
 
 [source](https://caddyserver.com/docs/running)
 
-# Backup
+## Forgejo
+
+Git repository configured with runners.
+
+## Mealie
+
+Recipe app.
+
+## Portainer
+
+Container management.
+
+## Filebrowser
+
+Web file manager used as an asset repo.
+
+## Duplicati
+
+Backup software to replace borg (WIP).
+
+## Minio
+
+S3 Storage for Formbricks.
+
+## Formbricks
+
+Survey software for surveys like google forms.
+
+## Watchtower
+
+If you run the watchtower, all docker images will be updated automatically.
+
+## Backup
 
 For backing up borg backup is used, more info [here](https://borgbackup.readthedocs.io/en/stable/quickstart.html).
 
@@ -145,7 +177,7 @@ Depending on the number of backups you want to do add the following line:
 
 More info about the [crontjobs](https://crontab.guru/)
 
-# Unattended upgrades
+## Unattended upgrades
 
 This package is used to auto update the server so you don't have to manually do it.
 
@@ -176,7 +208,3 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades
 Finished! Your server will now auto update itself.
 
 [source](https://linuxcapable.com/how-to-configure-unattended-upgrades-on-ubuntu-linux/)
-
-# Watchtower
-
-If you run the watchtower compose all docker images will be updated automatically.
